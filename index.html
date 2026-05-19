@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Board Game MVP</title>
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 720px;
+      margin: 4rem auto;
+      padding: 0 1rem;
+      line-height: 1.5;
+    }
+
+    h1 {
+      margin-bottom: 0.25rem;
+    }
+
+    .board {
+      display: flex;
+      gap: 3rem;
+      align-items: center;
+      margin-top: 3rem;
+    }
+
+    .shape-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: black;
+    }
+
+    .square {
+      width: 140px;
+      height: 140px;
+      background: black;
+    }
+
+    .label {
+      text-align: center;
+      margin-top: 0.75rem;
+      font-weight: 600;
+    }
+
+    .status {
+      margin-top: 3rem;
+      padding: 1rem;
+      border: 2px solid black;
+    }
+
+    #circle-clicked,
+    #square-clicked {
+      display: none;
+    }
+
+    #circle-clicked:target,
+    #square-clicked:target {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Board Game MVP</h1>
+  <p>Static page only. No JavaScript yet.</p>
+
+  <div class="board">
+    <a class="shape-link" href="#circle-clicked">
+      <div class="circle"></div>
+      <div class="label">Circle</div>
+    </a>
+
+    <a class="shape-link" href="#square-clicked">
+      <div class="square"></div>
+      <div class="label">Square</div>
+    </a>
+  </div>
+
+  <div class="status">
+    <strong>Status:</strong>
+    <p>Click a shape.</p>
+
+    <p id="circle-clicked">Circle clicked.</p>
+    <p id="square-clicked">Square clicked.</p>
+  </div>
+</body>
+</html>
