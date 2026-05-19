@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Board Game MVP</title>
+  <title>Harmonies MVP</title>
 
   <style>
     body {
@@ -14,10 +14,6 @@
       line-height: 1.5;
     }
 
-    h1 {
-      margin-bottom: 0.25rem;
-    }
-
     .board {
       display: flex;
       gap: 3rem;
@@ -25,10 +21,11 @@
       margin-top: 3rem;
     }
 
-    .shape-link {
-      display: block;
-      text-decoration: none;
-      color: inherit;
+    button {
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      font: inherit;
     }
 
     .circle {
@@ -54,42 +51,65 @@
       margin-top: 3rem;
       padding: 1rem;
       border: 2px solid black;
-    }
-
-    #circle-clicked,
-    #square-clicked {
-      display: none;
-    }
-
-    #circle-clicked:target,
-    #square-clicked:target {
-      display: block;
+      white-space: pre-wrap;
     }
   </style>
 </head>
 
 <body>
-  <h1>Board Game MVP</h1>
-  <p>Static page only. No JavaScript yet.</p>
+  <h1>Harmonies MVP</h1>
+  <p>Click a shape. The browser will send an HTTP request to the Python Worker.</p>
 
   <div class="board">
-    <a class="shape-link" href="#circle-clicked">
+    <button type="button" data-shape="circle">
       <div class="circle"></div>
       <div class="label">Circle</div>
-    </a>
+    </button>
 
-    <a class="shape-link" href="#square-clicked">
+    <button type="button" data-shape="square">
       <div class="square"></div>
       <div class="label">Square</div>
-    </a>
+    </button>
   </div>
 
-  <div class="status">
-    <strong>Status:</strong>
-    <p>Click a shape.</p>
+  <div class="status" id="status">Status: nothing clicked yet.</div>
 
-    <p id="circle-clicked">Circle clicked.</p>
-    <p id="square-clicked">Square clicked.</p>
-  </div>
+  <script>
+    const API_URL = "https://harmonies-api.joaquinbaixerasbuye.workers.dev/click";
+    const statusBox = document.getElementById("status");
+
+    async function sendShapeClick(shape) {
+      statusBox.textContent = `Status: sending ${shape} click...`;
+
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            shape: shape
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          statusBox.textContent = `Status: Worker error\n${JSON.stringify(data, null, 2)}`;
+          return;
+        }
+
+        statusBox.textContent = `Status: success\n${JSON.stringify(data, null, 2)}`;
+      } catch (error) {
+        statusBox.textContent = `Status: request failed\n${error}`;
+      }
+    }
+
+    for (const button of document.querySelectorAll("button[data-shape]")) {
+      button.addEventListener("click", () => {
+        sendShapeClick(button.dataset.shape);
+      });
+    }
+  </script>
 </body>
 </html>
