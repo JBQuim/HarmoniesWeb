@@ -1,0 +1,8 @@
+name = "harmonies-api"
+main = "worker.js"
+compatibility_date = "2026-05-25"
+
+[[d1_databases]]
+binding = "harmonies_db"
+database_name = "harmonies-db"
+database_id = "65ca2294-f7fd-45b5-80ff-6bc6e192eb42"
